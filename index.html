@@ -3,7 +3,7 @@
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0d1716">
 <title>The Long Way Round · Dec 19 – Jan 1</title>
@@ -663,6 +663,47 @@
   .light .echips a{background:rgba(20,32,28,.07);color:#14201e}
   .light .echips a:hover{background:rgba(20,32,28,.14)}
   @media (max-width:860px){.hrow{padding-left:20px;scroll-padding-inline:20px}.hc{flex-basis:76vw}}
+
+  /* ---------- phone ---------- */
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  a,button,summary,label,input{-webkit-tap-highlight-color:transparent}
+  a,button,summary,label{touch-action:manipulation}
+  .pktools input{font-size:16px}
+  .panels>*{min-width:0}
+  .menu{display:none;margin-left:auto;width:44px;height:44px;background:none;border:0;position:relative;cursor:pointer}
+  .menu i{position:absolute;left:12px;right:12px;height:2px;background:#e8ece5;border-radius:2px;transition:transform .3s,top .3s}
+  .menu i:nth-child(1){top:18px}
+  .menu i:nth-child(2){top:25px}
+  nav.open .menu i:nth-child(1){top:21px;transform:rotate(45deg)}
+  nav.open .menu i:nth-child(2){top:21px;transform:rotate(-45deg)}
+  .menu:focus-visible{outline:2px solid var(--sea);outline-offset:-4px;border-radius:8px}
+  @media (max-width:860px){
+    .menu{display:block}
+    nav .wrap{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right))}
+    nav ul{display:none;position:absolute;top:48px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:6px max(22px,env(safe-area-inset-right)) 26px max(22px,env(safe-area-inset-left));background:rgba(9,16,15,.98);border-bottom:1px solid rgba(255,255,255,.1);max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);overflow-y:auto}
+    nav.open ul{display:flex}
+    nav ul li a,nav a{display:flex;justify-content:space-between;align-items:center;font-size:21px;font-weight:600;letter-spacing:-.025em;padding:14px 4px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.08);color:#e8ece5;background:none}
+    nav a.on,nav a.navcta,nav a.navcta.on{background:none;color:#f3cf94;margin:0;padding:14px 4px}
+    nav a.navcta .navpct{font-size:12px}
+    .cd{flex-wrap:wrap;justify-content:center;gap:2px 10px;padding:10px 18px;font-size:14px;max-width:92%}
+    .cd i{flex-basis:100%;border-left:0;padding-left:0;text-align:center;font-size:13px}
+    .btn{font-size:16px;padding:12px 22px}
+    .road-in{margin:0 62px}
+    .rcar{width:112px;height:56px;margin:-52px 0 0 -56px}
+    .tstats div{padding:12px 10px}
+    .tstats b{font-size:21px;white-space:nowrap}
+    .tstats b i{font-size:12px}
+    .tstats span{font-size:11.5px;line-height:1.3;display:block}
+    .wxstats>div{padding:18px 16px}
+    .wxstats b{font-size:clamp(26px,8vw,34px);white-space:nowrap}
+    .qt{width:44px;height:44px}
+    .tbody li label{padding:11px 6px}
+    .seg button{padding:9px 18px}
+    .tbtn{padding:9px 16px}
+    .totop{bottom:calc(14px + env(safe-area-inset-bottom))}
+    .wrap{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+    footer{padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+  }
 </style>
 </head>
 <body>
@@ -682,6 +723,7 @@
     <li><a href="#essentials">Essentials</a></li>
     <li><a href="#plan">Bookings &amp; prep</a></li>
   </ul>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><i></i><i></i></button>
 </div></nav>
 
 <header class="hero" id="hero">
@@ -1433,6 +1475,17 @@ const WDAYS=[["2026-12-19","Sat","lar",["slc"]],["2026-12-20","Sun","boi",["pdx"
   $('#hrow').innerHTML=HC.map(([k,d,t,id])=>{const i=IMG[k]; return `<a class="hc" href="#${id}"><img src="${i.xs}" srcset="${i.xs} ${i.ws}w, ${i.sm} ${i.wm}w" sizes="340px" alt="${t}" loading="lazy" decoding="async"><span class="hk">${d}</span><span class="ht">${t}</span><span class="hp" aria-hidden="true"></span></a>`;}).join('');
 })();
 
+/* ---------- mobile menu ---------- */
+(function(){
+  const nav=$('nav'), b=$('.menu'); if(!nav||!b) return;
+  const set=o=>{ nav.classList.toggle('open',o); b.setAttribute('aria-expanded',String(o)); };
+  b.addEventListener('click',e=>{ e.stopPropagation(); set(!nav.classList.contains('open')); });
+  $$('#navlinks a').forEach(a=>a.addEventListener('click',()=>set(false)));
+  addEventListener('keydown',e=>{ if(e.key==='Escape') set(false); });
+  addEventListener('resize',()=>{ if(innerWidth>860) set(false); });
+  document.addEventListener('click',e=>{ if(nav.classList.contains('open')&&!nav.contains(e.target)) set(false); });
+})();
+
 /* ---------- trip tracker ---------- */
 (function(){
   const KEY='coastloop-track', MILES={d20:1240,d21:0,d22:250,d23:200,d24:230,d25:170,d26:235,d27:360,d28:245,d29:405,d30:0,d31:280,j1:825};
@@ -1470,7 +1523,7 @@ const WDAYS=[["2026-12-19","Sat","lar",["slc"]],["2026-12-20","Sun","boi",["pdx"
   let cur=0, raf=0;
   const place=t=>{cur=t; const p=at(t), a=at(t-.012), b=at(t+.012);
     let ang=Math.atan2((b.y-a.y)*(road.clientHeight/VH),(b.x-a.x)*(road.clientWidth/VW))*180/Math.PI; ang=Math.max(-26,Math.min(26,ang));
-    car.style.left=(p.x/VW*100)+'%'; car.style.top=(p.y/VH*100)+'%'; car.style.transform=`rotate(${ang.toFixed(1)}deg)`;
+    car.style.left=(p.x/VW*100)+'%'; car.style.top=(p.y/VH*100)+'%'; { const rd=road.parentElement; if(rd.scrollWidth>rd.clientWidth+4){ rd.scrollLeft=Math.max(0,p.x/VW*road.clientWidth+road.offsetLeft-rd.clientWidth/2); } } car.style.transform=`rotate(${ang.toFixed(1)}deg)`;
     prog.style.strokeDasharray=PL+' '+PL; prog.style.strokeDashoffset=PL-p.l;};
   const go=(t,anim)=>{cancelAnimationFrame(raf); if(!anim||matchMedia('(prefers-reduced-motion:reduce)').matches){place(t);car.classList.remove('mv');return;} car.classList.add('mv');
     const f0=cur,t0=performance.now(); (function f(now){const k=Math.min(1,(now-t0)/1100); place(f0+(t-f0)*(1-Math.pow(1-k,3))); if(k<1) raf=requestAnimationFrame(f); else car.classList.remove('mv');})(t0);};
