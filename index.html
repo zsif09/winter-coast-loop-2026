@@ -339,21 +339,17 @@
   .nextup small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:600}
   .nextup b{font-weight:600}
   .nextup .pin{flex:none;width:34px;height:34px;border-radius:50%;background:var(--amber);color:#1a1205;display:grid;place-items:center}
-  .road{margin:20px 0 4px;overflow-x:auto;padding:62px 0 6px;scrollbar-width:thin}
-  .road-in{position:relative;min-width:700px;height:78px;margin:0 22px}
-  .rline{position:absolute;left:0;right:0;top:20px;height:6px;border-radius:9px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 10px,transparent 10px 18px)}
-  .rfill{position:absolute;left:0;top:20px;height:6px;width:0;border-radius:9px;background:linear-gradient(90deg,var(--amber),#f3cf94);box-shadow:0 0 14px rgba(226,165,74,.55);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
-  .rcar{position:absolute;top:-42px;left:0;width:116px;height:68px;margin-left:-58px;transition:left 1.1s cubic-bezier(.2,.8,.2,1);z-index:3;pointer-events:none}
+  .road{margin:10px 0 4px;overflow-x:auto;padding:44px 0 6px;scrollbar-width:thin}
+  .road-in{position:relative;min-width:700px;aspect-ratio:1000/250;margin:0 14px}
+  .terr{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .rcar{position:absolute;left:0;top:0;width:116px;height:68px;margin:-62px 0 0 -58px;z-index:4;pointer-events:none;transform-origin:50% 92%;will-change:transform,left,top}
   .rcar img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transform:scaleX(-1);filter:drop-shadow(0 6px 5px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(226,165,74,.25))}
-  .rcar::after{content:"";position:absolute;left:8%;right:8%;bottom:-3px;height:7px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent);z-index:-1}
-  .rnode{position:absolute;top:13px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:#0d1716;border:2px solid #3a5049;display:grid;place-items:center;transition:background .4s,border-color .4s,transform .4s;text-decoration:none}
-  .rnode svg{width:11px;height:11px;opacity:0;transition:opacity .3s}
-  .rnode.on{background:var(--amber);border-color:#f3cf94;transform:scale(1.12)}
-  .rnode.on svg{opacity:1}
-  .rnode em{position:absolute;top:28px;left:50%;transform:translateX(-50%);font-style:normal;font-size:11px;color:var(--faint);white-space:nowrap}
-  .rnode.on em{color:#f3cf94}
-  .rstart{position:absolute;left:0;top:13px;margin-left:-10px;width:20px;height:20px;border-radius:50%;background:var(--sea);display:grid;place-items:center;font-size:0}
-  .rstart em{position:absolute;top:28px;left:50%;transform:translateX(-50%);font-style:normal;font-size:11px;color:var(--sea);white-space:nowrap}
+  .rnode{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#0d1716;border:2px solid #4a655e;display:grid;place-items:center;font-size:10.5px;font-weight:700;color:#9fb3ab;text-decoration:none;font-variant-numeric:tabular-nums;z-index:2;transition:background .4s,border-color .4s,color .4s,transform .3s}
+  .rnode:hover{transform:scale(1.18);border-color:var(--amber)}
+  .rnode.on{background:var(--amber);border-color:#f3cf94;color:#1a1205}
+  .rstart,.rend{position:absolute;margin:-30px 0 0 0;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;white-space:nowrap;z-index:2}
+  .rstart{color:var(--sea);transform:translateX(-4px)}
+  .rend{color:#f3cf94;transform:translateX(-100%)}
   .tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px}
   .tcard{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:border-color .4s,box-shadow .4s}
   .tcard[open]{grid-column:1/-1}
@@ -413,7 +409,7 @@
     .tcard summary{grid-template-columns:40px 1fr auto auto;gap:10px;padding:14px}
     .tcnt{min-width:58px}
   }
-  @media (prefers-reduced-motion:reduce){.ring .fg,.rfill,.rcar,.tcnt i::after{transition:none}.cf{display:none}}
+  @media (prefers-reduced-motion:reduce){.ring .fg,.tcnt i::after{transition:none}.cf{display:none}}
 </style>
 </head>
 <body>
@@ -512,7 +508,7 @@
         <div class="nextup" id="nextup"></div>
       </div>
     </div>
-    <div class="road" aria-hidden="true"><div class="road-in" id="road"><div class="rline"></div><div class="rfill" id="rfill"></div></div></div>
+    <div class="road"><div class="road-in" id="road"></div></div>
     <div class="fin" id="fin">That is the whole loop. Home again.<small>About 4,440 miles, every stop ticked.</small></div>
   </div>
   <div class="tgrid" id="tgrid"></div>
@@ -986,10 +982,40 @@ $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="$
   const stops=id=>DAYS[id].stops.map((x,i)=>({k:id+':'+i,t:x[0],n:x[1]}));
   const NS2='http://www.w3.org/2000/svg';
   const CHK='<svg viewBox="0 0 12 12"><path d="M2 6.4l2.6 2.6L10 3.4" fill="none" stroke="#1a1205" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const road=$('#road');
-  const start=el('div','rstart'); start.innerHTML='<em>Start</em>'; road.appendChild(start);
-  const nodes=ids.map((id,i)=>{const n=el('a','rnode'); n.href='#'+id; n.style.left=((i+1)/N*100)+'%'; n.title=DAYLABEL(id); n.innerHTML=CHK+'<em>'+DAYLABEL(id).replace(/^\w+ /,'')+'</em>'; road.appendChild(n); return n;});
+  const road=$('#road'), VW=1000, VH=250;
+  const ridge=[[0,178],[55,150],[115,182],[185,116],[255,158],[325,90],[395,136],[465,176],[535,124],[605,76],[675,126],[745,162],[815,104],[885,138],[950,92],[1000,122]];
+  const smooth=p=>{let d='M'+p[0][0]+' '+p[0][1]; for(let k=0;k<p.length-1;k++){const p0=p[k-1]||p[k],p1=p[k],p2=p[k+1],p3=p[k+2]||p2;
+    d+='C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+' '+p2[0]+' '+p2[1];} return d;};
+  const far=[[0,130],[70,64],[130,104],[210,26],[300,98],[380,48],[450,104],[540,18],[640,92],[720,44],[800,98],[890,34],[1000,92]];
+  const mid=[[0,150],[90,96],[170,138],[260,70],[340,128],[430,84],[520,140],[610,52],[700,120],[780,78],[870,132],[940,66],[1000,110]];
+  const poly=p=>'M'+p.map(q=>q.join(' ')).join('L')+`L${VW} ${VH}L0 ${VH}Z`;
+  const caps=far.filter((q,k)=>k&&k<far.length-1&&q[1]<far[k-1][1]&&q[1]<far[k+1][1]).map(q=>`<path d="M${q[0]} ${q[1]}l-17 24l8 -6l9 9l9 -9l8 6z" fill="rgba(235,244,240,.5)"/>`).join('');
+  const d=smooth(ridge);
+  road.innerHTML=`<svg class="terr" viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="none" aria-hidden="true"><defs>
+    <linearGradient id="tg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27443f"/><stop offset="1" stop-color="#0f1b19" stop-opacity=".2"/></linearGradient>
+    <linearGradient id="tg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e2a54a"/><stop offset="1" stop-color="#f7e2b0"/></linearGradient></defs>
+    <path d="${poly(far)}" fill="rgba(116,189,183,.08)"/>${caps}
+    <path d="${poly(mid)}" fill="rgba(116,189,183,.12)"/>
+    <path d="${d}L${VW} ${VH}L0 ${VH}Z" fill="url(#tg1)"/>
+    <path id="rbase" d="${d}" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="3.5" stroke-dasharray="1 9" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    <path id="rprog" d="${d}" fill="none" stroke="url(#tg2)" stroke-width="5" stroke-linecap="round" style="filter:drop-shadow(0 0 5px rgba(226,165,74,.7))" vector-effect="non-scaling-stroke"/></svg>`;
+  const base=$('#rbase',road), prog=$('#rprog',road), PL=base.getTotalLength();
+  const at=t=>{const l=Math.max(0,Math.min(1,t))*PL, p=base.getPointAtLength(l);return {x:p.x,y:p.y,l};};
+  const pct=(p)=>`left:${(p.x/VW*100).toFixed(3)}%;top:${(p.y/VH*100).toFixed(3)}%`;
+  const st0=at(0), en0=at(1);
+  const lab0=el('div','rstart','Start'); lab0.style.cssText=pct(st0); road.appendChild(lab0);
+  const lab1=el('div','rend','Home'); lab1.style.cssText=pct(en0); road.appendChild(lab1);
+  const nodes=ids.map((id,i)=>{const p=at((i+1)/N); const n=el('a','rnode',DAYLABEL(id).replace(/^\w+ /,'')); n.href='#'+id; n.title=DAYLABEL(id); n.style.cssText=pct(p); road.appendChild(n); return n;});
   const car=el('div','rcar'); car.innerHTML='<img src="img/4runner-cut.webp" alt="Toyota 4Runner" width="116" height="68" decoding="async">'; road.appendChild(car);
+  let cur=0, raf=0;
+  const place=t=>{cur=t; const p=at(t), a=at(t-.012), b=at(t+.012);
+    let ang=Math.atan2((b.y-a.y)*(road.clientHeight/VH),(b.x-a.x)*(road.clientWidth/VW))*180/Math.PI; ang=Math.max(-26,Math.min(26,ang));
+    car.style.left=(p.x/VW*100)+'%'; car.style.top=(p.y/VH*100)+'%'; car.style.transform=`rotate(${ang.toFixed(1)}deg)`;
+    prog.style.strokeDasharray=PL+' '+PL; prog.style.strokeDashoffset=PL-p.l;};
+  const go=(t,anim)=>{cancelAnimationFrame(raf); if(!anim||matchMedia('(prefers-reduced-motion:reduce)').matches){place(t);return;}
+    const f0=cur,t0=performance.now(); (function f(now){const k=Math.min(1,(now-t0)/1100); place(f0+(t-f0)*(1-Math.pow(1-k,3))); if(k<1) raf=requestAnimationFrame(f);})(t0);};
+  place(0);
+  addEventListener('resize',()=>place(cur));
   const grid=$('#tgrid'), cards={};
   ids.forEach(id=>{
     const d=DAYS[id], list=stops(id); const c=el('details','tcard'); c.id='t-'+id;
@@ -1032,7 +1058,7 @@ $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="$
     num($('#rpct'),pct); $('#navpct').textContent=pct+'%'; $('#navpct').style.display=pct?'':'none';
     $('#smi').innerHTML='<span class="num">'+Math.round(miles).toLocaleString()+'</span> <i>/ '+TOT.toLocaleString()+'</i>';
     $('#sst').innerHTML=done+' <i>/ '+total+'</i>'; $('#sdy').innerHTML=days+' <i>/ '+N+'</i>';
-    const x=frac/N*100; $('#rfill').style.width=x+'%'; car.style.left=x+'%';
+    go(frac/N,anim);
     const nu=$('#nextup');
     nu.innerHTML=next?'<span class="pin"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span><div><small>Next up · '+DAYLABEL(next.id)+'</small><b></b></div>':'<div><small>All done</small><b>Nothing left to tick.</b></div>';
     if(next) $('b',nu).textContent=(next.x.t?next.x.t+'  ':'')+next.x.n;
