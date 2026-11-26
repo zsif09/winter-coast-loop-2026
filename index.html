@@ -371,6 +371,11 @@
   .tcnt i{display:block;height:4px;border-radius:9px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden}
   .tcnt i::after{content:"";display:block;height:100%;width:var(--p,0%);background:linear-gradient(90deg,var(--amber),#f3cf94);border-radius:9px;transition:width .6s}
   .tcard.done .tcnt i::after{background:var(--ok)}
+  .tcard summary::after,.tcard[open]>summary::after{content:none}
+  .ring .mid b span{font-size:inherit;letter-spacing:0;text-transform:none;color:inherit;margin:0}
+  .tstats b span{font-size:inherit;color:inherit}
+  .tstats .nextup div{background:none;border:0;padding:0}
+  .tstats .nextup b{font-family:var(--sans);font-size:15.5px;font-weight:600;line-height:1.35}
   .qt{width:42px;height:42px;border-radius:50%;border:2px solid #44605a;background:transparent;color:transparent;display:grid;place-items:center;cursor:pointer;padding:0;transition:background .25s,border-color .25s,transform .2s,box-shadow .25s}
   .qt svg{width:20px;height:20px}
   .qt:hover{border-color:var(--amber);transform:scale(1.07)}
