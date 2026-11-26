@@ -1190,7 +1190,7 @@ const PACKICO={"doc": "<path d=\"M7 3h7l4 4v14H7z\"/><path d=\"M14 3v4h4M10 12h5
   const land=P(coast)+` L790 ${Y(33.5)} L790 0 Z`;
   add('clipPath',{id:'landclip'}).appendChild(Object.assign(document.createElementNS(NS,'path'),{})).setAttribute('d',land);
   add('path',{d:land,fill:'#15231f',stroke:'#2c403a','stroke-width':1.5});
-  const tg=add('g',{'clip-path':'url(#landclip)',transform:'scale(.55 .82)',opacity:.9});
+  const tc=add('g',{'clip-path':'url(#landclip)',opacity:.9}); const tg=add('g',{transform:'scale(.55 .82)'},null,tc);
   TOPO.paths.forEach((d,i)=>add('path',{d,fill:'none',stroke:i%4===3?'rgba(116,189,183,.2)':'rgba(116,189,183,.1)','stroke-width':i%4===3?1.8:1.1},null,tg));
   add('text',{x:44,y:330,fill:'#35524d','font-size':14,'font-style':'italic','font-family':'Georgia,serif','letter-spacing':3,transform:'rotate(-90 44 330)'},'PACIFIC OCEAN');
   [['WA',47.4,-120.3],['OR',44.0,-120.6],['CA',38.4,-120.6],['ID',44.4,-114.6],['NV',39.6,-117.0],['UT',40.2,-111.3],['WY',43.0,-107.6],['CO',38.3,-106.0],['AZ',35.0,-112.0]]
