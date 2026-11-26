@@ -586,6 +586,7 @@
   .totop{border:0;background:rgba(255,255,255,.14)}
   @media (max-width:860px){.hero .wrap{padding-bottom:200px}.panel{padding:24px 22px}.hero h1{font-size:clamp(46px,14vw,80px)}}
   @media (prefers-reduced-motion:reduce){.js .hero .cta{opacity:1;animation:none}}
+  .wxrow{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-left:calc(50vw - 50% + 4px);padding-right:calc(50vw - 50% + 4px);scroll-padding-inline:calc(50vw - 50% + 4px)}
 </style>
 </head>
 <body>
@@ -1309,7 +1310,7 @@ const WDAYS=[["2026-12-19","Sat","lar",["slc"]],["2026-12-20","Sun","boi",["pdx"
     const X=i=>L+(W-L-R)*(i+.5)/n, Y=v=>Tp+(H-Tp-B)*(1-(v-mn)/(mx-mn));
     const hp=hi.map((v,i)=>[X(i),Y(v)]), lp=lo.map((v,i)=>[X(i),Y(v)]);
     let grid=''; for(let v=mn;v<=mx;v+=step) grid+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,.07)"/><text x="${L-10}" y="${Y(v)+4}" text-anchor="end" fill="#6f827a" font-size="12">${v}°</text>`;
-    const fz=U==='C'?0:32; const frz=(fz>mn&&fz<mx)?`<line x1="${L}" x2="${W-R}" y1="${Y(fz)}" y2="${Y(fz)}" stroke="#74bdb7" stroke-dasharray="4 6" opacity=".7"/><text x="${W-R}" y="${Y(fz)-6}" text-anchor="end" fill="#74bdb7" font-size="11" letter-spacing="1.2">FREEZING</text>`:'';
+    const fz=U==='C'?0:32; const frz=(fz>mn&&fz<mx)?`<line x1="${L}" x2="${W-R}" y1="${Y(fz)}" y2="${Y(fz)}" stroke="#74bdb7" stroke-dasharray="4 6" opacity=".7"/><text x="${L+6}" y="${Y(fz)-6}" text-anchor="start" fill="#74bdb7" font-size="11" letter-spacing="1.2">FREEZING</text>`:'';
     const band=smooth(hp)+'L'+lp[n-1][0].toFixed(1)+' '+lp[n-1][1].toFixed(1)+smooth(lp.slice().reverse()).replace(/^M[^C]*/,'')+'Z';
     let dots='',xl='',hit=''; days.forEach((d,i)=>{ const x=X(i); dots+=`<circle cx="${x}" cy="${hp[i][1]}" r="4.6" fill="#0d1716" stroke="#f3cf94" stroke-width="2.2"/><text x="${x}" y="${hp[i][1]-12}" text-anchor="middle" fill="#f3e7cf" font-size="14" font-weight="600">${hi[i]}°</text><circle cx="${x}" cy="${lp[i][1]}" r="4.6" fill="#0d1716" stroke="#74bdb7" stroke-width="2.2"/><text x="${x}" y="${lp[i][1]+22}" text-anchor="middle" fill="#9fcdc8" font-size="14" font-weight="600">${lo[i]}°</text>`;
       xl+=`<text x="${x}" y="${H-38}" text-anchor="middle" fill="#e8ece5" font-size="13" font-weight="600">${MON[d.iso.slice(5,7)]} ${Number(d.iso.slice(8))}</text><text x="${x}" y="${H-20}" text-anchor="middle" fill="#6f827a" font-size="10.5">${WLOC[d.main][1].replace('Ocean Shores','Ocean Shr.').replace('Port Angeles','Pt Angeles').replace('Los Angeles','LA').replace('Las Vegas','Vegas').replace('Neah Bay','Neah Bay')}</text>`;
