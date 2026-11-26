@@ -356,7 +356,7 @@
   .tcard{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:border-color .4s,box-shadow .4s}
   .tcard[open]{grid-column:1/-1}
   .tcard.done{border-color:rgba(127,207,164,.5);box-shadow:0 0 0 1px rgba(127,207,164,.12),0 10px 30px -14px rgba(127,207,164,.35)}
-  .tcard summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:16px 18px}
+  .tcard summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:44px 1fr auto auto;gap:14px;align-items:center;padding:16px 18px}
   .tcard summary::-webkit-details-marker{display:none}
   .tbadge{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--fog);border:1px solid var(--line);font-family:var(--serif);font-weight:600;font-size:15px;line-height:1;text-align:center;transition:background .4s}
   .tbadge small{display:block;font-family:var(--sans);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:1px}
@@ -369,6 +369,11 @@
   .tcnt i{display:block;height:4px;border-radius:9px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden}
   .tcnt i::after{content:"";display:block;height:100%;width:var(--p,0%);background:linear-gradient(90deg,var(--amber),#f3cf94);border-radius:9px;transition:width .6s}
   .tcard.done .tcnt i::after{background:var(--ok)}
+  .qt{width:42px;height:42px;border-radius:50%;border:2px solid #44605a;background:transparent;color:transparent;display:grid;place-items:center;cursor:pointer;padding:0;transition:background .25s,border-color .25s,transform .2s,box-shadow .25s}
+  .qt svg{width:20px;height:20px}
+  .qt:hover{border-color:var(--amber);transform:scale(1.07)}
+  .qt:focus-visible{outline:2px solid var(--sea);outline-offset:3px}
+  .tcard.done .qt{background:var(--ok);border-color:var(--ok);color:#06150e;box-shadow:0 0 14px rgba(127,207,164,.4)}
   .tbody{padding:2px 18px 18px;border-top:1px solid var(--line)}
   .tbody ul{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:2px 22px}
   .tbody li label{display:grid;grid-template-columns:24px 62px 1fr;gap:8px;align-items:start;padding:8px 6px;border-radius:10px;cursor:pointer;font-size:14.5px;line-height:1.35;transition:background .2s}
@@ -385,9 +390,6 @@
   .tbtn:hover{background:rgba(255,255,255,.12)}
   .tbtn.pri{background:var(--amber);color:#1a1205;border-color:var(--amber);font-weight:600}
   .tfoot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;margin-top:18px;font-size:13px;color:var(--faint)}
-  .tbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px;position:relative}
-  .tbar span{font-size:13px;color:var(--faint)}
-  .tbtn.big{font-size:15px;padding:11px 22px;box-shadow:0 8px 24px -10px rgba(226,165,74,.7)}
   .fin{display:none;text-align:center;margin-top:22px;padding:20px;border-radius:16px;background:linear-gradient(120deg,rgba(226,165,74,.2),rgba(127,207,164,.16));border:1px solid rgba(243,207,148,.4);font-family:var(--serif);font-size:22px}
   .fin small{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:4px}
   .trk.all .fin{display:block}
@@ -395,12 +397,13 @@
   @keyframes cf{to{transform:translateY(520px) rotate(540deg);opacity:0}}
   .navpct{display:inline-block;margin-left:6px;font-size:11.5px;font-weight:700;color:#1a1205;background:var(--amber);border-radius:99px;padding:1px 7px;vertical-align:1px;font-variant-numeric:tabular-nums}
   @media (max-width:860px){
+    .qt{width:38px;height:38px}
     .trk{padding:22px 18px 18px;border-radius:20px}
     .trk-top{grid-template-columns:1fr;justify-items:center;gap:22px}
     .tstats{width:100%;gap:8px}.tstats div{padding:12px}.tstats b{font-size:24px}
     .tgrid{grid-template-columns:1fr}
     .tbody ul{grid-template-columns:1fr}
-    .tcard summary{grid-template-columns:40px 1fr auto;gap:10px;padding:14px}
+    .tcard summary{grid-template-columns:40px 1fr auto auto;gap:10px;padding:14px}
     .tcnt{min-width:58px}
   }
   @media (prefers-reduced-motion:reduce){.ring .fg,.rfill,.rcar,.tcnt i::after{transition:none}.cf{display:none}}
@@ -503,7 +506,6 @@
       </div>
     </div>
     <div class="road" aria-hidden="true"><div class="road-in" id="road"><div class="rline"></div><div class="rfill" id="rfill"></div></div></div>
-    <div class="tbar"><button class="tbtn pri big" id="tall" type="button">Tick all places</button><span>Marks every stop on every day as done. Tap again to undo.</span></div>
     <div class="fin" id="fin">That is the whole loop. Home again.<small>About 4,440 miles, every stop ticked.</small></div>
   </div>
   <div class="tgrid" id="tgrid"></div>
@@ -986,7 +988,9 @@ $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="$
     const d=DAYS[id], list=stops(id); const c=el('details','tcard'); c.id='t-'+id;
     const sm=el('summary'); const bd=el('div','tbadge'); bd.innerHTML='<div><small>'+(d.mon||'Dec')+'</small>'+d.d.split('–').pop()+'</div>';
     const mid=el('div'); const t=el('div','tt2'); t.textContent=d.title; const sb=el('div','ts'); sb.textContent=d.dow+' · '+(MILES[id]?'about '+MILES[id].toLocaleString()+' mi':(id==='d21'||id==='d31'?'no driving':'')) ; mid.append(t,sb);
-    const cnt=el('div','tcnt'); sm.append(bd,mid,cnt); c.appendChild(sm);
+    const cnt=el('div','tcnt'); const qt=el('button','qt'); qt.type='button';
+    qt.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    sm.append(bd,mid,cnt,qt); c.appendChild(sm);
     const body=el('div','tbody'); const ul=el('ul');
     list.forEach(x=>{const li=el('li'); const lb=el('label'); const cb=el('input'); cb.type='checkbox'; cb.checked=!!st[x.k]; cb.dataset.k=x.k;
       const tm=el('span','tm'); tm.textContent=x.t||''; const nm=el('span','nm'); nm.textContent=x.n;
@@ -998,7 +1002,10 @@ $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="$
     clr.addEventListener('click',()=>{list.forEach(x=>delete st[x.k]); $$('input',body).forEach(i=>i.checked=false); save(); paint(true);});
     const go=el('a','tbtn'); go.href='#'+id; go.textContent='See the day plan';
     acts.append(all,clr,go); body.append(ul,acts); c.appendChild(body); grid.appendChild(c);
-    cards[id]={c,cnt,list};
+    qt.addEventListener('click',e=>{ e.preventDefault(); e.stopPropagation();
+      const every=list.every(x=>st[x.k]); list.forEach(x=>{ if(every) delete st[x.k]; else st[x.k]=1; });
+      $$('input',body).forEach(i=>i.checked=!every); save(); paint(true); });
+    cards[id]={c,cnt,list,qt};
   });
   const num=(node,v)=>{const from=+node.dataset.v||0; node.dataset.v=v; if(matchMedia('(prefers-reduced-motion:reduce)').matches||from===v){node.textContent=v;return;}
     const t0=performance.now(); (function f(t){const p=Math.min(1,(t-t0)/700); node.textContent=Math.round(from+(v-from)*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(f);})(t0);};
@@ -1009,7 +1016,7 @@ $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="$
       const {c,cnt,list}=cards[id]; const n=list.filter(x=>st[x.k]).length; const f=list.length?n/list.length:0;
       total+=list.length; done+=n; miles+=(MILES[id]||0)*f; frac+=f;
       const full=n===list.length&&n>0; if(full) days++;
-      c.classList.toggle('done',full); nodes[i].classList.toggle('on',full);
+      c.classList.toggle('done',full); const q=cards[id].qt; q.setAttribute('aria-label',(full?'Untick all stops for ':'Tick all stops for ')+DAYLABEL(id)); q.title=full?'Untick this day':'Tick this whole day'; nodes[i].classList.toggle('on',full);
       cnt.innerHTML='<b>'+n+'</b> / '+list.length+'<i style="--p:'+(f*100)+'%"></i>';
       if(!next){const x=list.find(x=>!st[x.k]); if(x) next={x,id};}
     });
@@ -1025,14 +1032,8 @@ $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="$
     const all=total>0&&done===total; $('#trk').classList.toggle('all',all);
     if(all&&!wasAll&&anim&&!matchMedia('(prefers-reduced-motion:reduce)').matches){const box=$('#trk'); ['#e2a54a','#f3cf94','#7fcfa4','#74bdb7','#e58362'].forEach((col,k)=>{for(let j=0;j<10;j++){const p=el('i','cf'); p.style.cssText='left:'+(Math.random()*100)+'%;background:'+col+';animation-delay:'+(Math.random()*.5)+'s'; box.appendChild(p); setTimeout(()=>p.remove(),3400);}});}
     wasAll=all;
-    $('#tall').textContent=all?'Untick all places':'Tick all places';
     if(first){first=false; const open=ids.find(id=>cards[id].list.some(x=>!st[x.k])); if(open&&Object.keys(st).length) cards[open].c.open=true;}
   }
-  $('#tall').addEventListener('click',()=>{
-    const every=ids.every(id=>cards[id].list.every(x=>st[x.k]));
-    ids.forEach(id=>cards[id].list.forEach(x=>{ if(every) delete st[x.k]; else st[x.k]=1; }));
-    $$('.tbody input').forEach(i=>i.checked=!every); save(); paint(true);
-  });
   let rt=0; $('#treset').addEventListener('click',e=>{const b=e.currentTarget; if(!rt){b.textContent='Tap again to clear everything'; rt=setTimeout(()=>{b.textContent='Reset progress'; rt=0;},3500);} else {clearTimeout(rt); rt=0; b.textContent='Reset progress'; st={}; save(); $$('.tbody input').forEach(i=>i.checked=false); paint(false);}});
   paint(false);
 })();
