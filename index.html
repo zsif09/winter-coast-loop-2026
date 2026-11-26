@@ -587,6 +587,82 @@
   @media (max-width:860px){.hero .wrap{padding-bottom:200px}.panel{padding:24px 22px}.hero h1{font-size:clamp(46px,14vw,80px)}}
   @media (prefers-reduced-motion:reduce){.js .hero .cta{opacity:1;animation:none}}
   .wxrow{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-left:calc(50vw - 50% + 4px);padding-right:calc(50vw - 50% + 4px);scroll-padding-inline:calc(50vw - 50% + 4px)}
+
+  /* ---------- product-page treatment ---------- */
+  h2 .dim{color:#66786f;-webkit-text-fill-color:#66786f}
+  nav .wrap{justify-content:flex-start}
+  .brand{font-size:19px;font-weight:700;letter-spacing:-.03em}
+  nav ul{margin:0 0 0 auto}
+  nav a.cta{background:var(--amber);color:#1a1205;font-weight:600;padding:5px 14px;margin-left:8px}
+  nav a.cta:hover{background:#efb860;color:#1a1205}
+  nav a.cta.on{background:#f3cf94;color:#1a1205}
+  nav a.cta .navpct{background:#1a1205;color:var(--amber)}
+  .glance b{font-size:clamp(34px,4.6vw,58px)}
+  .ml{display:flex;justify-content:center;gap:10px 28px;flex-wrap:wrap;margin-top:18px;font-size:clamp(17px,1.8vw,21px)}
+  .ml a{color:var(--amber);text-decoration:none;letter-spacing:-.015em}
+  .ml a::after{content:" \203A";font-size:1.15em;margin-left:2px}
+  .ml a:hover{text-decoration:underline;text-underline-offset:5px}
+  /* highlights carousel */
+  #highlights{padding-bottom:0}
+  .hrow{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 0 28px;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-left:max(28px,calc(50vw - 540px + 28px));padding-right:28px;scroll-padding-inline:max(28px,calc(50vw - 540px + 28px));scrollbar-width:none}
+  .hrow::-webkit-scrollbar{display:none}
+  #highlights{overflow:hidden}
+  .hc{position:relative;flex:0 0 clamp(270px,26vw,350px);aspect-ratio:3/4;border-radius:28px;overflow:hidden;scroll-snap-align:start;background:var(--fog);color:#fff;text-decoration:none;display:block;isolation:isolate}
+  .hc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.7,.2,1);filter:saturate(1.05)}
+  .hc:hover img{transform:scale(1.06)}
+  .hc::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,0) 32%,rgba(0,0,0,0) 52%,rgba(0,0,0,.72) 100%)}
+  .hk{position:absolute;z-index:2;left:24px;top:22px;font-size:13px;font-weight:600;letter-spacing:.02em;color:#f3e7cf}
+  .ht{position:absolute;z-index:2;left:24px;right:84px;bottom:24px;font-size:clamp(22px,2.2vw,28px);font-weight:700;letter-spacing:-.035em;line-height:1.1}
+  .hp{position:absolute;z-index:2;right:20px;bottom:20px;width:40px;height:40px;border-radius:50%;background:rgba(30,40,38,.7);transition:background .25s,transform .25s}
+  .hp::before,.hp::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:2px;margin:-1px 0 0 -7px;background:#fff;border-radius:2px}
+  .hp::after{transform:rotate(90deg)}
+  .hc:hover .hp{background:#fff;transform:scale(1.08)}
+  .hc:hover .hp::before,.hc:hover .hp::after{background:#14201e}
+  /* light bands, like the white sections on a product page */
+  section.light{background:#f3f6f2;color:#14201e;margin-top:clamp(104px,15vw,176px);padding-top:clamp(96px,12vw,150px);padding-bottom:clamp(96px,12vw,150px);position:relative}
+  .light .eyebrow{color:#b3680a}
+  .light .head h2,.light h2{background:none;-webkit-text-fill-color:#14201e;color:#14201e}
+  .light h2 .dim{color:#8a9a93;-webkit-text-fill-color:#8a9a93}
+  .light .sub{color:#56665f}
+  .light .ml a{color:#a85f00}
+  .light .wxstats>div,.light .wxchart,.light .wxc,.light .ecard{background:#fff;box-shadow:0 1px 2px rgba(20,32,28,.05),0 18px 40px -24px rgba(20,32,28,.22)}
+  .light .wxstats .k{color:#66756f}
+  .light .wxstats .s{color:#86958f}
+  .light .seg{background:rgba(20,32,28,.08)}
+  .light .seg button{color:#56665f}
+  .light .seg button.on{background:#14201e;color:#fff}
+  .light .wxtools #wxsrc{color:#73837c}
+  .light #wxsvg text{fill:#43524c !important}
+  .light #wxsvg text[fill="#f3e7cf"]{fill:#8f5400 !important}
+  .light #wxsvg text[fill="#9fcdc8"]{fill:#127068 !important}
+  .light #wxsvg text[fill="#74bdb7"]{fill:#1b857d !important}
+  .light #wxsvg line[stroke^="rgba(255"]{stroke:rgba(20,32,28,.1) !important}
+  .light #wxsvg path[stroke="#f3cf94"]{stroke:#e0900c !important}
+  .light #wxsvg path[stroke="#74bdb7"]{stroke:#1b9a91 !important}
+  .light #wxsvg circle{fill:#fff !important}
+  .light #wxsvg circle[stroke="#f3cf94"]{stroke:#e0900c !important}
+  .light #wxsvg circle[stroke="#74bdb7"]{stroke:#1b9a91 !important}
+  .light #wxsvg line[stroke="#74bdb7"]{stroke:#1b9a91 !important}
+  .light .wxd{color:#1b857d}
+  .light .wxb{color:#73837c;border-color:rgba(20,32,28,.16)}
+  .light .wxb.live{color:#06150e;border-color:var(--ok)}
+  .light .wxp{color:#14201e}
+  .light .wxbig .wi{color:#e0900c}
+  .light .wxbig b{color:#14201e}
+  .light .wxbig span{color:#66756f}
+  .light .wxm li,.light .wxo li{border-top-color:rgba(20,32,28,.09)}
+  .light .wxm i,.light .wxo li{color:#66756f}
+  .light .wxm b,.light .wxo li b{color:#14201e}
+  .light .wxw{color:#3f4f49}
+  .light .wxnote,.light .muted{color:#73837c}
+  .light .wxnote a{color:#127068}
+  .light .ecard h3{color:#14201e}
+  .light .ecard p{color:#56665f}
+  .light .eic{background:rgba(224,144,12,.13)}
+  .light .eic svg{stroke:#c47700}
+  .light .echips a{background:rgba(20,32,28,.07);color:#14201e}
+  .light .echips a:hover{background:rgba(20,32,28,.14)}
+  @media (max-width:860px){.hrow{padding-left:20px;scroll-padding-inline:20px}.hc{flex-basis:76vw}}
 </style>
 </head>
 <body>
@@ -598,7 +674,7 @@
   <div class="brand">The Long Way <b>Round</b></div>
   <ul id="navlinks">
     <li><a href="#route">Route</a></li>
-    <li><a href="#tracker">Tracker<span class="navpct" id="navpct">0%</span></a></li>
+    <li><a class="cta" href="#tracker">Tracker<span class="navpct" id="navpct">0%</span></a></li>
     <li><a href="#weather">Weather</a></li>
     <li><a href="#days">Day by day</a></li>
     <li><a href="#yourlist">Your places</a></li>
@@ -659,10 +735,17 @@
 </div></div></div>
 
 <main>
+<section id="highlights"><div class="wrap">
+  <div class="head rv"><div class="eyebrow">Highlights</div><h2>Get the highlights. <span class="dim">Ten days, ten views.</span></h2>
+  <p class="sub">One picture from each stretch of the trip. Tap a card to jump to that day.</p></div></div>
+  <div class="hrow" id="hrow"></div>
+</section>
+
 
 <section id="route"><div class="wrap">
-  <div class="head rv"><div class="eyebrow">The route</div><h2>One loop, eight states</h2>
-  <p class="sub">I‑80 and I‑84 out, US‑101 and Highway 1 down the coast, across the Mojave, and I‑70 home. Scroll to the map and the car sets off.</p></div>
+  <div class="head rv"><div class="eyebrow">The route</div><h2>One loop. <span class="dim">Eight states.</span></h2>
+  <p class="sub">I‑80 and I‑84 out, US‑101 and Highway 1 down the coast, across the Mojave, and I‑70 home. Scroll to the map and the car sets off.</p>
+  <p class="ml"><a href="#days">See the day by day</a><a href="#weather">Check the weather</a></p></div>
   <ol class="legs rv" id="legs"></ol>
   <div class="mapcard rv" id="mapcard">
     <div class="mapscroll"><svg id="map" viewBox="0 0 790 656" role="img" aria-label="Schematic map of the loop from Fort Collins to Portland, down the Pacific coast to Los Angeles, to Las Vegas and back"></svg></div>
@@ -677,8 +760,9 @@
 </div></section>
 
 <section id="tracker"><div class="wrap">
-  <div class="head rv"><div class="eyebrow">Trip tracker</div><h2>How far have we come?</h2>
-  <p class="sub">Tick each stop as you reach it and the ring, the road and the mileage move with you. It saves on this phone or laptop, so each person keeps their own copy.</p></div>
+  <div class="head rv"><div class="eyebrow">Trip tracker</div><h2>How far <span class="dim">have we come?</span></h2>
+  <p class="sub">Tick each stop as you reach it and the ring, the road and the mileage move with you. It saves on this phone or laptop, so each person keeps their own copy.</p>
+  <p class="ml"><a href="#weather">See the weather</a><a href="#packing">Open the packing list</a></p></div>
   <div class="trk rv" id="trk">
     <div class="trk-top">
       <div class="ring"><svg viewBox="0 0 180 180" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2a54a"/><stop offset="1" stop-color="#f7e2b0"/></linearGradient></defs><circle class="bg" cx="90" cy="90" r="70"/><circle class="fg" id="rfg" cx="90" cy="90" r="70"/></svg>
@@ -697,9 +781,10 @@
   <div class="tfoot"><span>Progress is stored in this browser only.</span><button class="tbtn" id="treset" type="button">Reset progress</button></div>
 </div></section>
 
-<section id="weather"><div class="wrap">
-  <div class="head rv"><div class="eyebrow">Weather</div><h2>Cold at the edges.<br>Mild on the coast.</h2>
-  <p class="sub">What each day and place usually feels like, from eleven winters of records. Once a day is within 16 days of today, the live forecast takes over.</p></div>
+<section id="weather" class="light"><div class="wrap">
+  <div class="head rv"><div class="eyebrow">Weather</div><h2>Cold at the edges.<br><span class="dim">Mild on the coast.</span></h2>
+  <p class="sub">What each day and place usually feels like, from eleven winters of records. Once a day is within 16 days of today, the live forecast takes over.</p>
+  <p class="ml"><a href="#essentials">Know before you go</a><a href="#days">Plan the days</a></p></div>
   <div class="wxstats rv" id="wxstats"></div>
   <div class="wxtools"><div class="seg" id="unit" role="group" aria-label="Temperature unit"><button type="button" data-u="F" class="on">°F</button><button type="button" data-u="C">°C</button></div><span id="wxsrc"></span></div>
   <div class="wxchart rv"><svg id="wxsvg" viewBox="0 0 1000 340" role="img" aria-label="High and low temperature for each day of the trip"></svg></div>
@@ -709,22 +794,24 @@
 
 <section id="days"><div class="wrap" id="dayswrap">
   <svg class="tt" data-d="M-20 30 C240 60 420 4 640 34 S1000 62 1220 28" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true" style="margin-top:0;margin-bottom:60px"></svg>
-  <div class="head rv"><div class="eyebrow">Day by day</div><h2>Six chapters</h2>
+  <div class="head rv"><div class="eyebrow">Day by day</div><h2>Six chapters. <span class="dim">Fourteen days.</span></h2>
   <p class="sub">Each day shows the highlights; open the schedule for times and detail. Winter daylight is short, roughly 8 AM to 4:30 PM in the north, so the driving sits at the edges.</p>
+  <p class="ml"><a href="#tracker">Open the tracker</a><a href="#packing">Pack the car</a></p>
   <p class="key"><span class="mk" style="margin-left:0"></span>&nbsp; from your list &nbsp;&nbsp;&nbsp; <span class="mk o" style="margin-left:0"></span>&nbsp; from your list, if time allows</p></div>
   <div id="chapters"></div>
 </div></section>
 
 <section id="yourlist"><div class="wrap">
-  <div class="head rv"><div class="eyebrow">Your places</div><h2>All 70, and where each lands</h2>
+  <div class="head rv"><div class="eyebrow">Your places</div><h2>All 75. <span class="dim">And where each lands.</span></h2>
   <p class="sub">Everything saved in your Maps list. Open a region to see its places.</p></div>
   <div class="tally rv" id="tally"></div>
   <div id="regions" class="rv"></div>
 </div></section>
 
 <section id="packing"><div class="wrap">
-  <div class="head rv"><div class="eyebrow">Packing list</div><h2>Everything that goes in the car</h2>
-  <p class="sub">Tick things off as they go into a bag. Search for an item, tick a whole group at once, and the bar keeps count. It saves on this device.</p></div>
+  <div class="head rv"><div class="eyebrow">Packing list</div><h2>Everything that goes <span class="dim">in the car.</span></h2>
+  <p class="sub">Tick things off as they go into a bag. Search for an item, tick a whole group at once, and the bar keeps count. It saves on this device.</p>
+  <p class="ml"><a href="#plan">Bookings and prep</a><a href="#essentials">Read the essentials</a></p></div>
   <div class="pkbar rv">
     <div class="pkn"><b class="num" id="pkdone">0</b><span id="pktotal">/ 0 packed</span></div>
     <div class="pktrack"><i id="pkfill"></i></div>
@@ -736,15 +823,16 @@
   <p class="muted" id="pkempty" style="display:none;margin-top:20px">Nothing on the list matches that.</p>
 </div></section>
 
-<section id="essentials"><div class="wrap">
-  <div class="head rv"><div class="eyebrow">Essentials</div><h2>Know before you go.</h2>
-  <p class="sub">The small things that are easy to forget until you need them.</p></div>
+<section id="essentials" class="light"><div class="wrap">
+  <div class="head rv"><div class="eyebrow">Essentials</div><h2>Know before <span class="dim">you go.</span></h2>
+  <p class="sub">The small things that are easy to forget until you need them.</p>
+  <p class="ml"><a href="#weather">Back to the weather</a><a href="#plan">Bookings and prep</a></p></div>
   <div class="egrid"><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Time zones</h3><p>Fort Collins, Wyoming, Utah and southern Idaho are on Mountain Time. You cross into Pacific Time in eastern Oregon on Dec 20, so clocks go back an hour. On Jan 1 they move forward an hour again at the Utah line, which makes the drive home feel an hour longer.</p></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M6 17a6 6 0 0 1 12 0M12 5v3M4.5 9l2 2M19.5 9l-2 2"/></svg></div><h3>Short days</h3><p>Sunrise is around 7:45 AM and sunset around 4:30 PM in Portland, and about 8 AM and 4:25 PM on the Olympic Peninsula. Both long drives run in the dark, so check the headlights and keep washer fluid topped up.</p></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5"/></svg></div><h3>Snow and traction rules</h3><p>Colorado can switch on its Traction Law on I‑70: AWD or 4WD with M+S or snowflake tyres (at least 3/16 inch of tread), or chains. Oregon and Washington post “carry chains” and “chains required” signs on passes such as the Blue Mountains. Most rental contracts ban chains, so the right tyres matter. Follow the signs.</p></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3L5 21M16 3l3 18M12 4v3M12 10.5v3M12 17v3"/></svg></div><h3>Long gaps between services</h3><p>I‑80 from Laramie to Rawlins, about 100 miles, is wind‑prone and exposed. On I‑70 in Utah there are about 106 miles with no services between Green River and Salina. I‑15 from Barstow to Las Vegas has little more than Baker. Fill up before each.</p></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19l6-11 4 7 3-5 5 9z"/></svg></div><h3>Altitude</h3><p>Sherman Summit on I‑80 in Wyoming is 8,640 ft. On the way home Vail Pass is 10,662 ft and the Eisenhower Tunnel about 11,100 ft. Drink water and expect it to be well below freezing up there even when Fort Collins is mild.</p></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h18M5 18V9M19 18V9M5 9c3 5 11 5 14 0M12 14V9"/></svg></div><h3>Tolls and bridges</h3><p>The Golden Gate Bridge toll is paid southbound only and is cashless, roughly $10. Rental companies often add a daily fee when they bill tolls, so ask how it works, or pay online yourself if the contract allows it.</p></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></div><h3>Road reports</h3><p>Check the road report for each state the night before and again in the morning.</p><div class="echips"><a href="https://wyoroad.info">Wyoming</a><a href="https://udottraffic.utah.gov">Utah</a><a href="https://511.idaho.gov">Idaho</a><a href="https://tripcheck.com">Oregon</a><a href="https://wsdot.com/travel/real-time">Washington</a><a href="https://quickmap.dot.ca.gov">California</a><a href="https://nvroads.com">Nevada</a><a href="https://www.cotrip.org">Colorado</a><a href="https://www.nps.gov/olym/planyourvisit/current-road-conditions.htm">Olympic NP roads</a><a href="https://www.weather.gov">Weather alerts</a></div></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/></svg></div><h3>Phone numbers</h3><p>Emergency: 911. Olympic National Park road line: 360‑565‑3131. Eastwind Drive‑In: 541‑374‑8380. If you have AAA, roadside help is 1‑800‑222‑4357. Keep the rental company’s roadside number from the agreement in your phone.</p></div><div class="ecard rv"><div class="eic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></svg></div><h3>Signal and offline maps</h3><p>Coverage thins out on the Olympic coast, the Oregon coast, Highway 1 near Mendocino and on I‑70 in Utah. Download offline maps for those areas. This page keeps working offline once you have opened it, so the plan and packing list are still there with no signal.</p></div></div>
 </div></section>
 
 <section id="plan"><div class="wrap">
   <svg class="tt" data-d="M-20 34 C200 4 360 60 620 30 S1000 6 1220 36" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true" style="margin-top:0;margin-bottom:60px"></svg>
-  <div class="head rv"><div class="eyebrow">Bookings &amp; prep</div><h2>The practical part</h2></div>
+  <div class="head rv"><div class="eyebrow">Bookings &amp; prep</div><h2>The practical <span class="dim">part.</span></h2></div>
   <div class="panels">
     <div class="panel full rv">
       <h3>Still to decide</h3>
@@ -1338,6 +1426,13 @@ const WDAYS=[["2026-12-19","Sat","lar",["slc"]],["2026-12-20","Sun","boi",["pdx"
       live=days.filter(d=>d.places[d.main].live).length; if(live){ draw(); src(live); } }).catch(()=>{});
 })();
 
+/* ---------- highlights ---------- */
+(function(){
+  const HC=[['multnomah','Dec 20','The Columbia River Gorge','d20'],['flattery','Dec 23','Cape Flattery','d23'],['secondbeach','Dec 24','Second Beach','d24'],['haystack','Dec 25','Haystack Rock','d25'],['heceta','Dec 26','Heceta Head Lighthouse','d26'],
+    ['jedediah','Dec 27','Among the redwoods','d27'],['cypress','Dec 28','The Mendocino coast','d28'],['griffith2','Dec 29','Griffith Observatory','d29'],['santamonica','Dec 30','Santa Monica Pier','d30'],['vegas','Dec 31','New Year’s Eve on the Strip','d31']];
+  $('#hrow').innerHTML=HC.map(([k,d,t,id])=>{const i=IMG[k]; return `<a class="hc" href="#${id}"><img src="${i.xs}" srcset="${i.xs} ${i.ws}w, ${i.sm} ${i.wm}w" sizes="340px" alt="${t}" loading="lazy" decoding="async"><span class="hk">${d}</span><span class="ht">${t}</span><span class="hp" aria-hidden="true"></span></a>`;}).join('');
+})();
+
 /* ---------- trip tracker ---------- */
 (function(){
   const KEY='coastloop-track', MILES={d20:1240,d21:0,d22:250,d23:200,d24:230,d25:170,d26:235,d27:360,d28:245,d29:405,d30:0,d31:280,j1:825};
@@ -1540,7 +1635,7 @@ document.addEventListener('toggle',()=>{clearTimeout(rail.t); rail.t=setTimeout(
 { const far=$('.hero .far'), mid=$('.hero .mid'), txt=$('.hero > .wrap'), bg=$('#topo-bg'), prog=$('#prog'); let tk=false;
   const onS=()=>{ if(tk) return; tk=true; requestAnimationFrame(()=>{ tk=false; const y=scrollY, max=document.documentElement.scrollHeight-innerHeight;
     prog.style.transform=`scaleX(${max>0?y/max:0})`;
-    if(y<1000){ far.style.transform=`translateY(${(y*.12).toFixed(1)}px)`; mid.style.transform=`translateY(${(y*.06).toFixed(1)}px)`; txt.style.transform=`translateY(${(y*.14).toFixed(1)}px)`; txt.style.opacity=Math.max(0,1-y/620).toFixed(2); }
+    if(y<1000){ far.style.transform=`translateY(${(y*.12).toFixed(1)}px)`; mid.style.transform=`translateY(${(y*.06).toFixed(1)}px)`; txt.style.transform=`translateY(${(y*.14).toFixed(1)}px) scale(${(1-y/4800).toFixed(4)})`; txt.style.opacity=Math.max(0,1-y/620).toFixed(2); }
     if(!RM) bg.style.transform=`translate3d(0,${(-(max>0?y/max:0)*innerHeight*.07).toFixed(1)}px,0)`;
     if(y<500) links.forEach(a=>a.classList.remove('on'));
     updateRail(); }); };
