@@ -414,6 +414,33 @@
     .tcnt{min-width:58px}
   }
   @media (prefers-reduced-motion:reduce){.ring .fg,.tcnt i::after{transition:none}.cf{display:none}}
+
+  /* ---------- packing list ---------- */
+  .pkbar{display:flex;align-items:center;gap:18px;margin-top:30px;background:linear-gradient(160deg,#172826,#101c1a);border:1px solid var(--line);border-radius:18px;padding:18px 22px}
+  .pkn{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+  .pkn b{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1}
+  .pkn span{color:var(--muted);font-size:14px}
+  .pktrack{flex:1;height:10px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
+  .pktrack i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--amber),#f7e2b0);box-shadow:0 0 12px rgba(226,165,74,.5);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+  .pkbar.full .pktrack i{background:linear-gradient(90deg,#5fbf8c,var(--ok))}
+  .pkpct{font-size:20px;color:var(--amber);min-width:52px;text-align:right}
+  .pkbar.full .pkpct{color:var(--ok)}
+  .pktools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .pktools input{flex:1;min-width:200px;font:inherit;font-size:14.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:9px 18px;outline:none;transition:border-color .2s}
+  .pktools input:focus{border-color:var(--sea)}
+  .pktools input::placeholder{color:var(--faint)}
+  .pk .tbadge svg{width:22px;height:22px;fill:none;stroke:var(--amber);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .pk .tcard.done .tbadge svg{stroke:#06150e}
+  .pk .tbody li label{grid-template-columns:24px 1fr}
+  .pk .tbody li.hide{display:none}
+  .pk .tbody h4{margin:16px 0 0;font-family:var(--sans);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea);font-weight:600}
+  .pk .tbody h4:first-child{margin-top:12px}
+  .pk .tbody h4.hide{display:none}
+  .pk .tbody ul{margin-top:4px}
+  .pk .dt{display:block;color:var(--faint);font-size:12.5px;line-height:1.35;margin-top:1px}
+  .pk .tbody input:checked~.nm .dt{opacity:.6}
+  .pk .tcard.hide{display:none}
+  @media (max-width:860px){.pkbar{flex-wrap:wrap;gap:10px}.pktrack{order:3;flex-basis:100%}.pkn b{font-size:28px}}
 </style>
 </head>
 <body>
@@ -428,6 +455,7 @@
     <li><a href="#tracker">Tracker<span class="navpct" id="navpct">0%</span></a></li>
     <li><a href="#days">Day by day</a></li>
     <li><a href="#yourlist">Your places</a></li>
+    <li><a href="#packing">Packing<span class="navpct" id="packpct" style="display:none">0%</span></a></li>
     <li><a href="#plan">Bookings &amp; prep</a></li>
   </ul>
 </div></nav>
@@ -532,6 +560,20 @@
   <p class="sub">Everything saved in your Maps list. Open a region to see its places.</p></div>
   <div class="tally rv" id="tally"></div>
   <div id="regions" class="rv"></div>
+</div></section>
+
+<section id="packing"><div class="wrap">
+  <div class="head rv"><div class="eyebrow">Packing list</div><h2>Everything that goes in the car</h2>
+  <p class="sub">Tick things off as they go into a bag. Search for an item, tick a whole group at once, and the bar keeps count. It saves on this device.</p></div>
+  <div class="pkbar rv">
+    <div class="pkn"><b class="num" id="pkdone">0</b><span id="pktotal">/ 0 packed</span></div>
+    <div class="pktrack"><i id="pkfill"></i></div>
+    <b class="pkpct num" id="pkpct">0%</b>
+  </div>
+  <div class="pktools"><input id="pksearch" type="search" placeholder="Search your list" aria-label="Search the packing list" autocomplete="off">
+    <button class="tbtn" id="pkopen" type="button">Open all</button><button class="tbtn" id="pkclose" type="button">Close all</button><button class="tbtn" id="pkreset" type="button">Reset</button></div>
+  <div class="tgrid pk" id="pkgrid"></div>
+  <p class="muted" id="pkempty" style="display:none;margin-top:20px">Nothing on the list matches that.</p>
 </div></section>
 
 <section id="plan"><div class="wrap">
@@ -978,6 +1020,66 @@ Object.entries(LISTS).forEach(([name,items])=>{
 $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="${i.page}">${i.title}</a> · ${i.by} · ${i.lic}</li>`;}).join('');
 
 const CAR_SVG="<svg viewBox=\"0 0 400 160\" role=\"img\" aria-label=\"Toyota 4Runner\"><defs><linearGradient id=\"frb\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#d9e870\"/><stop offset=\".3\" stop-color=\"#bdd13e\"/><stop offset=\".7\" stop-color=\"#93aa2b\"/><stop offset=\"1\" stop-color=\"#6b7f20\"/></linearGradient><linearGradient id=\"frg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#b4d3df\"/><stop offset=\".32\" stop-color=\"#6c93a4\"/><stop offset=\".68\" stop-color=\"#2a4350\"/><stop offset=\"1\" stop-color=\"#101b22\"/></linearGradient><linearGradient id=\"frs\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0\" stop-color=\"#fff\" stop-opacity=\"0\"/><stop offset=\".5\" stop-color=\"#fff\" stop-opacity=\".3\"/><stop offset=\"1\" stop-color=\"#fff\" stop-opacity=\"0\"/></linearGradient><radialGradient id=\"frw\" cx=\".5\" cy=\".5\" r=\".5\"><stop offset=\".55\" stop-color=\"#2c3234\"/><stop offset=\"1\" stop-color=\"#0c0e0f\"/></radialGradient><clipPath id=\"frbody\"><path id=\"frbp\" d=\"M22 124 L20 104 L24 88 L29 62 L36 30 Q38 23.5 46 22.5 L236 20.5 Q242 20.5 245 24 L285 62 L360 65 Q373 66.5 378 77 L381 100 L379 124 L343 124 A35 35 0 0 0 273 124 L130 124 A35 35 0 0 0 60 124 Z\"/></clipPath></defs>\n<ellipse cx=\"200\" cy=\"150\" rx=\"188\" ry=\"6\" fill=\"#000\" opacity=\".5\"/>\n<circle cx=\"95\" cy=\"120\" r=\"36\" fill=\"#06080a\"/><circle cx=\"308\" cy=\"120\" r=\"36\" fill=\"#06080a\"/>\n<g class=\"frwh\" style=\"transform-origin:95px 120px\"><circle cx=\"95\" cy=\"120\" r=\"30.5\" fill=\"#101213\"/><circle cx=\"95\" cy=\"120\" r=\"30.5\" fill=\"none\" stroke=\"#2d3335\" stroke-width=\"3\" stroke-dasharray=\"3.2 2.6\"/><circle cx=\"95\" cy=\"120\" r=\"23\" fill=\"url(#frw)\"/><circle cx=\"95\" cy=\"120\" r=\"18\" fill=\"#15181a\" stroke=\"#3c4447\" stroke-width=\"1.2\"/><g stroke=\"#505a5e\" stroke-width=\"3.6\" stroke-linecap=\"round\"><path d=\"M95 120V104M95 120l13.9-8M95 120l13.9 8M95 120V136M95 120l-13.9 8M95 120l-13.9-8\"/></g><circle cx=\"95\" cy=\"120\" r=\"5\" fill=\"#b3261e\"/><circle cx=\"95\" cy=\"120\" r=\"1.7\" fill=\"#1a0b0a\"/></g>\n<g class=\"frwh\" style=\"transform-origin:308px 120px\"><circle cx=\"308\" cy=\"120\" r=\"30.5\" fill=\"#101213\"/><circle cx=\"308\" cy=\"120\" r=\"30.5\" fill=\"none\" stroke=\"#2d3335\" stroke-width=\"3\" stroke-dasharray=\"3.2 2.6\"/><circle cx=\"308\" cy=\"120\" r=\"23\" fill=\"url(#frw)\"/><circle cx=\"308\" cy=\"120\" r=\"18\" fill=\"#15181a\" stroke=\"#3c4447\" stroke-width=\"1.2\"/><g stroke=\"#505a5e\" stroke-width=\"3.6\" stroke-linecap=\"round\"><path d=\"M308 120V104M308 120l13.9-8M308 120l13.9 8M308 120V136M308 120l-13.9 8M308 120l-13.9-8\"/></g><circle cx=\"308\" cy=\"120\" r=\"5\" fill=\"#b3261e\"/><circle cx=\"308\" cy=\"120\" r=\"1.7\" fill=\"#1a0b0a\"/></g>\n<g stroke=\"#0d1011\" stroke-linecap=\"round\" fill=\"none\"><path d=\"M52 14 L234 12\" stroke-width=\"3.4\"/><path d=\"M52 9 L234 7\" stroke-width=\"1.7\"/><g stroke-width=\"2.5\"><path d=\"M60 22.6V12.5M108 22.4V12M156 22V11.5M204 21.6V10.8M230 21.2V10\"/></g><g stroke-width=\"1.7\" opacity=\".9\"><path d=\"M84 13.3V8.2M132 12.8V7.8M180 12.3V7.4\"/></g></g>\n<use href=\"#frbp\" fill=\"url(#frb)\"/>\n<g clip-path=\"url(#frbody)\"><rect x=\"0\" y=\"108\" width=\"400\" height=\"20\" fill=\"#000\" opacity=\".18\"/><path d=\"M20 62 L296 62 L296 65 L20 65Z\" fill=\"#fff\" opacity=\".14\"/><path d=\"M22 100 Q200 96 380 102\" stroke=\"#000\" stroke-opacity=\".22\" stroke-width=\"1.4\" fill=\"none\"/><path d=\"M28 70 Q190 66 374 76\" stroke=\"#fff\" stroke-opacity=\".45\" stroke-width=\"2\" fill=\"none\"/><rect x=\"50\" y=\"46\" width=\"270\" height=\"22\" fill=\"url(#frs)\" opacity=\".5\"/><path d=\"M287 63 L360 66.5\" stroke=\"#000\" stroke-opacity=\".28\" stroke-width=\"1.4\"/></g>\n<path d=\"M20 104 L25 96 L56 98 L61 124 L22 124Z\" fill=\"#14181a\"/>\n<path d=\"M343 124 L345 108 L381 106 L379 124Z\" fill=\"#14181a\"/>\n<path d=\"M134 120 H270 Q273 120 273 123 Q273 126.5 269 126.5 H136 Q132 126.5 132 123 Q132 120 134 120Z\" fill=\"#0f1213\"/><path d=\"M138 121.2 H266\" stroke=\"#55646a\" stroke-width=\"1\" opacity=\".7\"/>\n<path d=\"M57 124 A38.5 38.5 0 0 1 133 124\" fill=\"none\" stroke=\"#12161a\" stroke-width=\"5\"/><path d=\"M270 124 A38.5 38.5 0 0 1 346 124\" fill=\"none\" stroke=\"#12161a\" stroke-width=\"5\"/>\n<path d=\"M60 118 A36 36 0 0 1 130 118\" fill=\"none\" stroke=\"#fff\" stroke-opacity=\".13\" stroke-width=\"1\"/>\n<clipPath id=\"frwin\"><path d=\"M42 31 L121 29.5 L121 59 L33 59Z\"/><path d=\"M127 29.5 L177 29 L177 59 L127 59Z\"/><path d=\"M183 29 L233 28.5 Q237 28.5 239 31 L271 59 L183 59Z\"/></clipPath><path d=\"M40 27.5 L123 26 L123 61 L30 61Z M125 26 L179 25.5 L179 61 L125 61Z M181 25.5 L234 25 Q239 25 242 28.5 L276 61 L181 61Z\" fill=\"#0a1114\"/><g clip-path=\"url(#frwin)\"><rect x=\"30\" y=\"26\" width=\"250\" height=\"36\" fill=\"url(#frg)\"/><g fill=\"#0b1419\" opacity=\".62\"><path d=\"M62 59 Q62 48 69 46 Q76 48 76 59Z\"/><rect x=\"64\" y=\"40\" width=\"10\" height=\"8\" rx=\"3.5\"/><path d=\"M140 59 Q140 48 147 46 Q154 48 154 59Z\"/><rect x=\"142\" y=\"40\" width=\"10\" height=\"8\" rx=\"3.5\"/><path d=\"M196 59 Q196 48 203 46 Q210 48 210 59Z\"/><rect x=\"198\" y=\"40\" width=\"10\" height=\"8\" rx=\"3.5\"/></g><path d=\"M56 26 L82 26 L52 62 L28 62Z\" fill=\"#fff\" opacity=\".3\"/><path d=\"M92 26 L102 26 L72 62 L62 62Z\" fill=\"#fff\" opacity=\".16\"/><path d=\"M150 26 L176 26 L150 62 L126 62Z\" fill=\"#fff\" opacity=\".22\"/><path d=\"M192 26 L222 26 L190 62 L180 62Z\" fill=\"#fff\" opacity=\".28\"/><path d=\"M232 26 L246 26 L216 62 L206 62Z\" fill=\"#fff\" opacity=\".13\"/></g><g fill=\"none\" stroke-linejoin=\"round\"><path d=\"M42 31 L121 29.5 M127 29.5 L177 29 M183 29 L233 28.5 Q237 28.5 239 31\" stroke=\"#fff\" stroke-opacity=\".5\" stroke-width=\"1\"/><path d=\"M33 59 H271\" stroke=\"#e9f1f3\" stroke-opacity=\".35\" stroke-width=\"1.1\"/></g><g stroke=\"#2a3410\" stroke-opacity=\".7\" stroke-width=\"1.3\" fill=\"none\"><path d=\"M124 60V121M180 60V121M270 62L269 121\"/><path d=\"M60 60L54 100\"/></g>\n<g fill=\"#0f1411\"><rect x=\"149\" y=\"68\" width=\"18\" height=\"3.8\" rx=\"1.9\"/><rect x=\"204\" y=\"68\" width=\"18\" height=\"3.8\" rx=\"1.9\"/></g>\n<path d=\"M268 50 L285 48 Q289 48 289 52 L287 59 L270 60Z\" fill=\"#a9bd3a\" stroke=\"#0c1316\" stroke-width=\"1.2\"/><path d=\"M270 51.5 L285 50 L284 57 L271 58Z\" fill=\"#14202a\" opacity=\".85\"/>\n<path d=\"M25 56 L32 54 L32 80 L25 83Z\" fill=\"#c7261c\"/><path d=\"M26.5 59 L30.5 58 L30.5 67 L26.5 68Z\" fill=\"#ff6a5a\" opacity=\".7\"/>\n<path d=\"M300 63.5 L311 59.5 L336 60.5 L343 65Z\" fill=\"#7d9226\" stroke=\"#4d5c17\" stroke-width=\"1\"/><path d=\"M357 68 L376 71 L379 85 L359 82Z\" fill=\"#e8eef0\" stroke=\"#10181a\" stroke-width=\"1.5\"/><path d=\"M362 70.5 L374 72.8 L376 80.5 L363 78.6Z\" fill=\"#ffb347\" opacity=\".92\"/>\n<path d=\"M368 88 L381 89 L381 106 L369 106Z\" fill=\"#0c0f10\"/><path d=\"M370 91.5H381M370 95.5H381M370 99.5H381\" stroke=\"#3c484d\" stroke-width=\"1.1\"/>\n<circle cx=\"372\" cy=\"113\" r=\"2.8\" fill=\"#d9e6ea\" stroke=\"#0a0d0e\" stroke-width=\"1\"/>\n</svg>";
+const PACK=[{"t":"Documents & Money","g":[{"t":"IDs & Travel Docs","i":[{"n":"Passport"},{"n":"Driver's License"},{"n":"Printed I-20"},{"n":"I-94"},{"n":"Vaccine Card"},{"n":"Thai Visa"},{"n":"MS Certificate"},{"n":"Singapore MRT Card"}]},{"t":"Wallets & Cards","i":[{"n":"Main Wallet"},{"n":"Travel Wallet"},{"n":"Single Cardholder"}]},{"t":"Stationery","i":[{"n":"Pen"}]}],"k":"doc"},{"t":"Tech & Gaming","g":[{"t":"Computers & Tablets","i":[{"n":"MacBook Air / Laptop","d":"with sleeve/Tomtoc pouch & charger"},{"n":"Alienware Laptop + charger"},{"n":"iPad + charger"}]},{"t":"Phones & Wearables","i":[{"n":"iPhone"},{"n":"Apple Watch + travel charger"},{"n":"AirTags"}]},{"t":"Audio","i":[{"n":"AirPods","d":"+ 3-in-1 cleaner"},{"n":"Sony Wireless Headphones"},{"n":"Skullcandy Headphones"},{"n":"Wired Headphones + adapter/dongle","d":"AKG"},{"n":"Mono Headphone"},{"n":"JBL Speaker"}]},{"t":"Power & Storage","i":[{"n":"Anker Power Brick / Small Cube"},{"n":"Anker 4-in-1 Charger","d":"with suction cup"},{"n":"Power Bank / Anker MagGo"},{"n":"External SSD + cables"},{"n":"Charging Cables","d":"USB-C to C, USB-A to C, USB-C to Lightning, Belkin, Ugreen, 10ft Anker, red Anker Type-C"},{"n":"HDMI Cable"},{"n":"Satechi Adapter"}]},{"t":"Peripherals","i":[{"n":"MX Master Mouse / Travel Mouse","d":"with cover"},{"n":"White Controller","d":"with attached cable & phone rig"}]},{"t":"Gaming Handhelds","i":[{"n":"Nintendo Switch"},{"n":"Anbernic Handheld"}]}],"k":"tech"},{"t":"Camera & Gear","g":[{"t":"Cameras","i":[{"n":"Fujifilm Camera + lenses + extra battery + charging cable"},{"n":"Full Frame Camera"}]},{"t":"Action Cam & Stabilization","i":[{"n":"DJI Osmo Action 4 + cable + DJI tripod"},{"n":"Mini Phone Tripod"},{"n":"Magic Arm"}]},{"t":"Accessories","i":[{"n":"SD Cards & adapters"}]}],"k":"cam"},{"t":"Clothing & Footwear","g":[{"t":"Tops","i":[{"n":"T-shirts","d":"up to 10 + 1 Move T-shirt"},{"n":"Hoodies / Sweatshirts","d":"x3"},{"n":"Weatherproof Shirt"}]},{"t":"Bottoms","i":[{"n":"Pants / Blue Jeans / Black Pants","d":"x3"},{"n":"Shorts","d":"Denim & Decathlon"}]},{"t":"Outerwear","i":[{"n":"UV Jacket"},{"n":"Rain Jacket"},{"n":"North Face Thermoball Jacket"},{"n":"P&B Bomber Jacket"},{"n":"All in Motion / Eddie Jacket"}]},{"t":"Winter Gear","i":[{"n":"Thermal base layers"},{"n":"Beanie"},{"n":"Gloves"},{"n":"UV Sleeve"}]},{"t":"Lounge & Swim","i":[{"n":"Loungewear / Night sets","d":"x2"},{"n":"Homewear"},{"n":"Nike Swim"}]},{"t":"Undergarments & Accessories","i":[{"n":"Underwear / Boxers","d":"up to 10"},{"n":"Socks"},{"n":"Belt"},{"n":"Hat / Cap"}]},{"t":"Footwear","i":[{"n":"Stan Smith"},{"n":"Adidas Superstar"},{"n":"New Balance 327"},{"n":"North Face Shoes"},{"n":"Birkenstocks / Sandals"},{"n":"Flip-flops / Hotel Slippers"}]}],"k":"shirt"},{"t":"Toiletries & Grooming","g":[{"t":"Hair & Face","i":[{"n":"Comb"},{"n":"Hair Band"},{"n":"Pomade"},{"n":"Hair Gel"},{"n":"Facewash"},{"n":"Moisturizer"},{"n":"Aloe Vera Gel"},{"n":"Lip Balm / Chapstick"},{"n":"Acne Patches"}]},{"t":"Body & Hygiene","i":[{"n":"Shampoo"},{"n":"Dry Shampoo"},{"n":"Shower Gel"},{"n":"Deodorant"},{"n":"Hand Cream"},{"n":"Vaseline"},{"n":"Perfume","d":"full, mini/travel, & solid"},{"n":"Wet Wipes / Butt Wipes"},{"n":"Face Tissue"}]},{"t":"Oral Care","i":[{"n":"Toothbrush"},{"n":"Toothpaste"},{"n":"Dental Floss"},{"n":"Mouthwash","d":"regular/small"}]},{"t":"Shaving & Trimming","i":[{"n":"Safety Razor + extra blades"},{"n":"Shaving Cream"},{"n":"Aftershave"},{"n":"Philips OneBlade","d":"with extra blades"},{"n":"Philips Trimmer"},{"n":"Nose Trimmer"}]},{"t":"Tools","i":[{"n":"Nail Clipper"},{"n":"Cotton Buds"},{"n":"Tide Pen"}]}],"k":"drop"},{"t":"Medical & Wellness","g":[{"t":"Medications","i":[{"n":"Painkillers / Panadol"},{"n":"Pain Killer Spray"},{"n":"Pain Roller / Roll-on"},{"n":"Pepto-Bismol"},{"n":"Insulin"},{"n":"Liquid IV"}]},{"t":"First Aid & Devices","i":[{"n":"Band-Aids"},{"n":"Blister Patches / Blister Medicine"},{"n":"Glucose Meter"},{"n":"Blood Pressure Machine"},{"n":"Massager"}]}],"k":"med"},{"t":"Eyewear","g":[{"t":"Glasses","i":[{"n":"Tom Ford Spectacles"},{"n":"Eyebob Spectacles"},{"n":"Old Glasses","d":"for power update"}]},{"t":"Sunglasses","i":[{"n":"Ferragamo Sunglasses"},{"n":"Gray Sunglasses"},{"n":"Regular Sunglasses"}]},{"t":"Care & Cases","i":[{"n":"Microfiber Cleaning Cloth"},{"n":"Foldable Case"},{"n":"Big Multi-Eyewear Case"}]}],"k":"eye"},{"t":"Bags & Organizers","g":[{"t":"Main & Day Bags","i":[{"n":"Duffle Bag"},{"n":"Backpack"},{"n":"Crossbody Bag"},{"n":"Lululemon Bag"},{"n":"Camera Side Bag","d":"from BKK"}]},{"t":"Totes","i":[{"n":"Black Tote"},{"n":"IKEA Tote"},{"n":"Zipper Tote"},{"n":"Shadaab’s Packable Tote"}]},{"t":"Pouches","i":[{"n":"Muji Pouch"},{"n":"Camera Pouch"},{"n":"Mini SD Card Pouch"},{"n":"Essentials Pouch"},{"n":"Blue Organizer"},{"n":"Green Small Pouch"},{"n":"Cold Pouch"}]}],"k":"bag"},{"t":"Travel Comfort & Utility","g":[{"t":"Flight & Sleep","i":[{"n":"Neck Pillow"},{"n":"Sleep Mask"},{"n":"Earplugs"}]},{"t":"Tools & Hardware","i":[{"n":"Torch / Flashlight"},{"n":"Pocket Knife / Swiss Army Knife"},{"n":"Lighter"},{"n":"Carabiner"},{"n":"3D-Printed Hooks"},{"n":"Travel Weight Scale"},{"n":"House Keys","d":"3 room keys"}]},{"t":"Hydration & Waste","i":[{"n":"Water Bottle"},{"n":"Foldable Water Bottle"},{"n":"Brita Water Bottle"},{"n":"Trash / Garbage Bags"},{"n":"Towels","d":"regular & small"},{"n":"Bug Spray"}]},{"t":"Nicotine & Gum","i":[{"n":"Nicotine Gum"},{"n":"Khusing"},{"n":"Regular Gum"}]}],"k":"gear"},{"t":"Food & Games","g":[{"t":"Food & Drinks","i":[{"n":"Water"},{"n":"Coffee"},{"n":"Ramen"},{"n":"Cake"},{"n":"Biscuits"},{"n":"Snacks"}]},{"t":"Games","i":[{"n":"Playing Cards"},{"n":"Sequence"},{"n":"Phase 10"},{"n":"Uno"},{"n":"Codenames"}]}],"k":"food"},{"t":"One-offs to remember","g":[{"t":"Other","i":[{"n":"Quilt","d":"for repair"}]},{"t":"Shadaab","i":[{"n":"Butter set"},{"n":"Razor"},{"n":"Face hair trimmer"}]},{"t":"Muzi","i":[{"n":"Vaseline container"}]}],"k":"star"}];
+const PACKICO={"doc": "<path d=\"M7 3h7l4 4v14H7z\"/><path d=\"M14 3v4h4M10 12h5M10 16h5\"/>", "tech": "<path d=\"M4 6h16v10H4z\"/><path d=\"M2 19h20\"/>", "cam": "<path d=\"M4 8h4l2-3h4l2 3h4v11H4z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/>", "shirt": "<path d=\"M8 4L3 7l2 4 3-1v10h8V10l3 1 2-4-5-3c-1 2-2.5 3-4 3S9 6 8 4z\"/>", "drop": "<path d=\"M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z\"/>", "med": "<path d=\"M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z\"/>", "eye": "<circle cx=\"7\" cy=\"13\" r=\"4\"/><circle cx=\"17\" cy=\"13\" r=\"4\"/><path d=\"M11 13h2M3 13l1-5M21 13l-1-5\"/>", "bag": "<path d=\"M6 8h12l1 12H5z\"/><path d=\"M9 8V6a3 3 0 0 1 6 0v2\"/>", "gear": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M15.5 8.5l-2 5-5 2 2-5z\"/>", "food": "<path d=\"M5 11h14a7 7 0 0 1-14 0z\"/><path d=\"M8 4v4M12 4v4M16 4v4\"/>", "star": "<path d=\"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z\"/>"};
+/* ---------- packing list ---------- */
+(function(){
+  const KEY='coastloop-pack'; let st={}; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+  const grid=$('#pkgrid'), cards=[]; let TOTAL=0;
+  PACK.forEach((c,ci)=>{
+    const card=el('details','tcard'); const sm=el('summary');
+    const bd=el('div','tbadge'); bd.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+PACKICO[c.k]+'</svg>';
+    const mid=el('div'); const t=el('div','tt2'); t.textContent=c.t; const sb=el('div','ts'); mid.append(t,sb);
+    const cnt=el('div','tcnt'); const qt=el('button','qt'); qt.type='button';
+    qt.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    sm.append(bd,mid,cnt,qt); card.appendChild(sm);
+    const body=el('div','tbody'); const keys=[], rows=[];
+    c.g.forEach((g,gi)=>{
+      const h=el('h4'); h.textContent=g.t; body.appendChild(h); const ul=el('ul'); const lis=[];
+      g.i.forEach((it,ii)=>{
+        const k=ci+'.'+gi+'.'+ii; keys.push(k); TOTAL++;
+        const li=el('li'); const lb=el('label'); const cb=el('input'); cb.type='checkbox'; cb.checked=!!st[k]; cb.dataset.k=k;
+        const nm=el('span','nm'); nm.textContent=it.n; if(it.d){const d=el('span','dt'); d.textContent=it.d; nm.appendChild(d);}
+        cb.addEventListener('change',()=>{ if(cb.checked) st[k]=1; else delete st[k]; save(); paint(); });
+        lb.append(cb,nm); li.appendChild(lb); ul.appendChild(li); lis.push(li); rows.push({li,txt:(it.n+' '+(it.d||'')+' '+g.t).toLowerCase()});
+      });
+      body.appendChild(ul); rows.push({h,lis});
+    });
+    const acts=el('div','acts'); const all=el('button','tbtn pri'); all.type='button'; all.textContent='Tick whole group';
+    all.addEventListener('click',()=>{keys.forEach(k=>st[k]=1); $$('input',body).forEach(i=>i.checked=true); save(); paint();});
+    const clr=el('button','tbtn'); clr.type='button'; clr.textContent='Clear group';
+    clr.addEventListener('click',()=>{keys.forEach(k=>delete st[k]); $$('input',body).forEach(i=>i.checked=false); save(); paint();});
+    acts.append(all,clr); body.appendChild(acts); card.appendChild(body); grid.appendChild(card);
+    qt.addEventListener('click',e=>{e.preventDefault(); e.stopPropagation(); const every=keys.every(k=>st[k]); keys.forEach(k=>{ if(every) delete st[k]; else st[k]=1; }); $$('input',body).forEach(i=>i.checked=!every); save(); paint();});
+    cards.push({card,cnt,sb,qt,keys,rows,body,title:c.t});
+  });
+  function paint(){
+    let done=0;
+    cards.forEach(c=>{
+      const n=c.keys.filter(k=>st[k]).length, full=n===c.keys.length; done+=n;
+      c.card.classList.toggle('done',full); c.cnt.innerHTML='<b>'+n+'</b> / '+c.keys.length+'<i style="--p:'+(n/c.keys.length*100)+'%"></i>';
+      c.sb.textContent=c.keys.length+' items'; c.qt.title=full?'Untick this group':'Tick this whole group'; c.qt.setAttribute('aria-label',(full?'Untick all in ':'Tick all in ')+c.title);
+    });
+    const pct=Math.round(done/TOTAL*100);
+    $('#pkdone').textContent=done; $('#pktotal').textContent='/ '+TOTAL+' packed'; $('#pkfill').style.width=pct+'%'; $('#pkpct').textContent=pct+'%';
+    $('.pkbar').classList.toggle('full',done===TOTAL);
+    const nb=$('#packpct'); nb.textContent=pct+'%'; nb.style.display=pct?'':'none';
+  }
+  const q=$('#pksearch'); q.addEventListener('input',()=>{
+    const v=q.value.trim().toLowerCase(); let any=false;
+    cards.forEach(c=>{ let hit=0;
+      c.rows.forEach(r=>{ if(r.li){ const m=!v||r.txt.includes(v); r.li.classList.toggle('hide',!m); if(m) hit++; } });
+      c.rows.forEach(r=>{ if(r.h){ r.h.classList.toggle('hide',!r.lis.some(l=>!l.classList.contains('hide'))); } });
+      c.card.classList.toggle('hide',!hit); if(hit) any=true; if(v) c.card.open=!!hit; });
+    $('#pkempty').style.display=any?'none':'';
+  });
+  $('#pkopen').addEventListener('click',()=>cards.forEach(c=>{ if(!c.card.classList.contains('hide')) c.card.open=true; }));
+  $('#pkclose').addEventListener('click',()=>cards.forEach(c=>c.card.open=false));
+  let rt=0; $('#pkreset').addEventListener('click',e=>{const b=e.currentTarget; if(!rt){b.textContent='Tap again to untick all'; rt=setTimeout(()=>{b.textContent='Reset'; rt=0;},3500);} else {clearTimeout(rt); rt=0; b.textContent='Reset'; st={}; save(); $$('#pkgrid input').forEach(i=>i.checked=false); paint();}});
+  paint();
+})();
+
 /* ---------- trip tracker ---------- */
 (function(){
   const KEY='coastloop-track', MILES={d20:1240,d21:0,d22:250,d23:200,d24:230,d25:170,d26:235,d27:360,d28:245,d29:405,d30:280,d31:0,j1:825};
