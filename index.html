@@ -786,7 +786,7 @@
   <p class="sub">What each day and place usually feels like, from eleven winters of records. Once a day is within 16 days of today, the live forecast takes over.</p>
   <p class="ml"><a href="#essentials">Know before you go</a><a href="#days">Plan the days</a></p></div>
   <div class="wxstats rv" id="wxstats"></div>
-  <div class="wxtools"><div class="seg" id="unit" role="group" aria-label="Temperature unit"><button type="button" data-u="F" class="on">°F</button><button type="button" data-u="C">°C</button></div><span id="wxsrc"></span></div>
+  <div class="wxtools"><div class="seg" id="unit" role="group" aria-label="Temperature unit"><button type="button" data-u="C" class="on">°C</button><button type="button" data-u="F">°F</button></div><span id="wxsrc"></span></div>
   <div class="wxchart rv"><svg id="wxsvg" viewBox="0 0 1000 340" role="img" aria-label="High and low temperature for each day of the trip"></svg></div>
   <div class="wxrow" id="wxrow"></div>
   <p class="muted wxnote">Typical values are averages for the same dates in 2014 to 2024, taken from <a href="https://open-meteo.com/en/docs/historical-weather-api">Open‑Meteo</a> weather records, so any one day can be warmer, colder or wetter. Mountain passes are modelled at pass height. Always check the forecast and the road report the night before each drive.</p>
@@ -1224,8 +1224,8 @@ const CARS = [
 
 const LISTS = {
   'Book':['Pick the car up on Dec 19 at 9 AM; add all three drivers','Confirm unlimited miles and out‑of‑state driving','Ask for AWD and M+S or snowflake tyres','Cancel Motel 6 Tigard before Dec 17 if Oyo covers Dec 20–21','Las Vegas for New Year’s Eve, Dec 31','Muir Woods parking, Dec 28, about 3:30 PM','The Grotto Festival of Lights, Dec 21','Fund the card for Dec 17, 19, 21 and 22'],
-  'Snow drives':['Check WYDOT, Idaho 511 and TripCheck before leaving','Check COtrip and UDOT on the night of Dec 31','Agree the driver rota; swap every 2 hours','Keep the tank above half','Washer fluid rated to −20°F','Ice scraper, snow brush, small shovel','Blankets, water and food for a closure','Headlamp, cables, power bank','Sunglasses for the snow glare'],
-  'Coast and desert':['Rain shell and waterproof shoes','Layers for 35–50°F and wind','Tide tables for Dec 24 and 26','Binoculars for whales','Cash for the Makah pass and trailhead fees','Offline maps for the peninsula and Highway 1','Groceries for Christmas Day','Something warm for midnight on the Strip']
+  'Snow drives':['Check WYDOT, Idaho 511 and TripCheck before leaving','Check COtrip and UDOT on the night of Dec 31','Agree the driver rota; swap every 2 hours','Keep the tank above half','Washer fluid rated to −29°C','Ice scraper, snow brush, small shovel','Blankets, water and food for a closure','Headlamp, cables, power bank','Sunglasses for the snow glare'],
+  'Coast and desert':['Rain shell and waterproof shoes','Layers for 2–10°C and wind','Tide tables for Dec 24 and 26','Binoculars for whales','Cash for the Makah pass and trailhead fees','Offline maps for the peninsula and Highway 1','Groceries for Christmas Day','Something warm for midnight on the Strip']
 };
 
 const money = n => '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -1365,7 +1365,7 @@ const WLOC={"lar":["Laramie, WY","Laramie",41.311,-105.591,null],"slc":["Salt La
 const WDAYS=[["2026-12-19","Sat","lar",["slc"]],["2026-12-20","Sun","boi",["pdx"]],["2026-12-21","Mon","pdx",[]],["2026-12-22","Tue","pa",["pdx"]],["2026-12-23","Wed","nb",["pa"]],["2026-12-24","Thu","os",["pa"]],["2026-12-25","Fri","ast",["os"]],["2026-12-26","Sat","cb",["ast"]],["2026-12-27","Sun","fb",["cb"]],["2026-12-28","Mon","sv",["fb"]],["2026-12-29","Tue","la",["sv"]],["2026-12-30","Wed","la",[]],["2026-12-31","Thu","lv",["la"]],["2027-01-01","Fri","vail",["lv","fc"]]];
 /* ---------- weather ---------- */
 (function(){
-  const MON={'12':'Dec','01':'Jan'}; const KEY='coastloop-unit'; let U='F'; try{U=localStorage.getItem(KEY)||'F'}catch(e){}
+  const MON={'12':'Dec','01':'Jan'}; const KEY='coastloop-unit'; let U='C'; try{U=localStorage.getItem(KEY)||'C'}catch(e){}
   const ICON={
     sun:'<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>',
     part:'<circle cx="8" cy="8" r="3"/><path d="M8 2v1.5M2 8h1.5M3.8 3.8l1 1M12.2 3.8l-1 1"/><path d="M9 20h8a3.5 3.5 0 0 0 .5-6.95A4.8 4.8 0 0 0 9 12.2 4 4 0 0 0 9 20z"/>',
@@ -1390,7 +1390,7 @@ const WDAYS=[["2026-12-19","Sat","lar",["slc"]],["2026-12-20","Sun","boi",["pdx"
     const pick=(f,cmp)=>all.reduce((a,b)=>cmp(f(b),f(a))?b:a);
     const cold=pick(x=>x.v.lo,(a,b)=>a<b), warm=pick(x=>x.v.hi,(a,b)=>a>b), wet=pick(x=>x.v.pr,(a,b)=>a>b), wind=pick(x=>x.v.wd,(a,b)=>a>b);
     const tile=(k,big,sub,x)=>`<div><span class="k">${k}</span><b class="num">${big}</b><span class="s">${WLOC[x.id][1]} · ${MON[x.d.iso.slice(5,7)]} ${Number(x.d.iso.slice(8))}</span></div>`;
-    $('#wxstats').innerHTML=tile('Coldest low',T(cold.v.lo)+'°','',cold)+tile('Warmest high',T(warm.v.hi)+'°','',warm)+tile('Wettest day',wet.v.pr+'%','',wet)+tile('Windiest',S(wind.v.wd),'',wind); };
+    $('#wxstats').innerHTML=tile('Coldest low',T(cold.v.lo)+'°'+U,'',cold)+tile('Warmest high',T(warm.v.hi)+'°'+U,'',warm)+tile('Wettest day',wet.v.pr+'%','',wet)+tile('Windiest',S(wind.v.wd),'',wind); };
   const smooth=p=>{let d='M'+p[0][0].toFixed(1)+' '+p[0][1].toFixed(1); for(let k=0;k<p.length-1;k++){const p0=p[k-1]||p[k],p1=p[k],p2=p[k+1],p3=p[k+2]||p2;
     d+='C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);} return d;};
   const chart=()=>{ const W=1000,H=340,L=46,R=22,Tp=36,B=74,n=days.length; const hi=days.map(d=>T(d.places[d.main].hi)), lo=days.map(d=>T(d.places[d.main].lo));
