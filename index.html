@@ -385,6 +385,9 @@
   .tbtn:hover{background:rgba(255,255,255,.12)}
   .tbtn.pri{background:var(--amber);color:#1a1205;border-color:var(--amber);font-weight:600}
   .tfoot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;margin-top:18px;font-size:13px;color:var(--faint)}
+  .tbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px;position:relative}
+  .tbar span{font-size:13px;color:var(--faint)}
+  .tbtn.big{font-size:15px;padding:11px 22px;box-shadow:0 8px 24px -10px rgba(226,165,74,.7)}
   .fin{display:none;text-align:center;margin-top:22px;padding:20px;border-radius:16px;background:linear-gradient(120deg,rgba(226,165,74,.2),rgba(127,207,164,.16));border:1px solid rgba(243,207,148,.4);font-family:var(--serif);font-size:22px}
   .fin small{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:4px}
   .trk.all .fin{display:block}
@@ -500,6 +503,7 @@
       </div>
     </div>
     <div class="road" aria-hidden="true"><div class="road-in" id="road"><div class="rline"></div><div class="rfill" id="rfill"></div></div></div>
+    <div class="tbar"><button class="tbtn pri big" id="tall" type="button">Tick all places</button><span>Marks every stop on every day as done. Tap again to undo.</span></div>
     <div class="fin" id="fin">That is the whole loop. Home again.<small>About 4,440 miles, every stop ticked.</small></div>
   </div>
   <div class="tgrid" id="tgrid"></div>
@@ -1021,8 +1025,14 @@ $('#credits').innerHTML=[...used].map(k=>{const i=IMG[k]; return `<li><a href="$
     const all=total>0&&done===total; $('#trk').classList.toggle('all',all);
     if(all&&!wasAll&&anim&&!matchMedia('(prefers-reduced-motion:reduce)').matches){const box=$('#trk'); ['#e2a54a','#f3cf94','#7fcfa4','#74bdb7','#e58362'].forEach((col,k)=>{for(let j=0;j<10;j++){const p=el('i','cf'); p.style.cssText='left:'+(Math.random()*100)+'%;background:'+col+';animation-delay:'+(Math.random()*.5)+'s'; box.appendChild(p); setTimeout(()=>p.remove(),3400);}});}
     wasAll=all;
+    $('#tall').textContent=all?'Untick all places':'Tick all places';
     if(first){first=false; const open=ids.find(id=>cards[id].list.some(x=>!st[x.k])); if(open&&Object.keys(st).length) cards[open].c.open=true;}
   }
+  $('#tall').addEventListener('click',()=>{
+    const every=ids.every(id=>cards[id].list.every(x=>st[x.k]));
+    ids.forEach(id=>cards[id].list.forEach(x=>{ if(every) delete st[x.k]; else st[x.k]=1; }));
+    $$('.tbody input').forEach(i=>i.checked=!every); save(); paint(true);
+  });
   let rt=0; $('#treset').addEventListener('click',e=>{const b=e.currentTarget; if(!rt){b.textContent='Tap again to clear everything'; rt=setTimeout(()=>{b.textContent='Reset progress'; rt=0;},3500);} else {clearTimeout(rt); rt=0; b.textContent='Reset progress'; st={}; save(); $$('.tbody input').forEach(i=>i.checked=false); paint(false);}});
   paint(false);
 })();
